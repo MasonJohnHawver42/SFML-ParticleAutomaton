@@ -11,7 +11,7 @@ public:
   }
 
   Viewer() {
-    window = new sf::RenderWindow(sf::VideoMode(1200, 1200), "Demo Game 66");
+    window = new sf::RenderWindow(sf::VideoMode(1280, 1280), "Demo Game 66");
   }
 
   //getters

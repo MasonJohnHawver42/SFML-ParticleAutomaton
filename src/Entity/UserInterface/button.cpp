@@ -1,34 +1,44 @@
-#include"../BaseEntities/Particle/baseParticle.cpp"
-#include<string>
+#include"slider.cpp"
 
 
 class Button : public Entity2D {
 private:
   RectangleEntity * body;
+  TextEntity * text;
 
   bool clicked;
 
-  string name; // todo latter
-
 public:
+  Button(RectangleEntity * rect, string t, World2D * wrld) : Entity2D(wrld) {
+    body = rect;
+    body->setWorld(wrld);
+    text = new TextEntity(body, t, wrld);
+    clicked = 0;
+  }
     Button(RectangleEntity * rect, World2D * wrld) : Entity2D(wrld) {
       body = rect;
-      body->setWorld(getWorld());
+      body->setWorld(wrld);
+      text = new TextEntity(body, wrld);
+      clicked = 0;
+    }
 
+    Button(string t, World2D * wrld) : Entity2D(wrld) {
+      body = new RectangleEntity(32, 8, 0, 0, wrld);
+      text = new TextEntity(body, t, wrld);
       clicked = 0;
     }
 
     Button(World2D * wrld) : Entity2D(wrld) {
-      body = new RectangleEntity(.1, .1);
-      body->setWorld(getWorld());
-
+      body = new RectangleEntity(32, 8, 0, 0, wrld);
+      text = new TextEntity(body, wrld);
       clicked = 0;
-      std::cout << clicked << '\n';
     }
 
     //get
 
     RectangleEntity * getBody() { return body; }
+
+    TextEntity * getText() { return text; }
 
     bool isClicked() { return clicked; }
 
@@ -47,24 +57,7 @@ public:
     virtual void setWorld(World2D * w) {
       Entity2D::setWorld(w);
       body->setWorld(getWorld());
-    }
-
-    void drawText() {
-      sf::Text text;
-      text.setFont(*world->getAssetMng()->getFont(0)); // font is a sf::Font
-      text.setString("Reset");
-      text.setCharacterSize(120); // in pixels, not points!
-      text.setScale(1.0 / 4800, 1.0 / 4800);
-      text.setFillColor(sf::Color::Red);
-      text.setPosition(.01, .01);
-      text.setStyle(sf::Text::Bold);
-
-      Viewer2D * cam = world->getViewer();
-      sf::RenderWindow * window = cam->getWindow();
-
-      //std::cout << "here" << '\n';
-
-      window->draw(text);
+      text->setWorld(getWorld());
     }
 
     virtual void draw() {
@@ -74,10 +67,10 @@ public:
       sf::RectangleShape rectangle;
       rectangle.setSize(sf::Vector2f(body->getWidth(), body->getHeight()));
       rectangle.setPosition(body->getPos()->getX(), body->getPos()->getY());
-      rectangle.setFillColor(sf::Color(255, 255, 255, 100 + (100 * !clicked)));
+      rectangle.setFillColor(sf::Color(25, 255, 20, 255 + (0 * !clicked)));
 
-      window->draw(rectangle);
-      drawText();
+      //window->draw(rectangle);
+      text->draw();
     }
 
 };
@@ -125,17 +118,15 @@ public:
 
     if (!sf::Mouse::isButtonPressed(sf::Mouse::Left) && leftClickDown) {
 
-      Vector<double> * sp = world->getUser()->getMouseCursor()->getScreenPos();
-      sp->div(world->getViewer()->getWindow()->getDefaultView().getSize().x, world->getViewer()->getWindow()->getDefaultView().getSize().y);
-
-
+      Vector<double> * sp = world->getUser()->getMouseCursor()->getPos();
+      //sp->div(world->getViewer()->getWindow()->getDefaultView().getSize().x, world->getViewer()->getWindow()->getDefaultView().getSize().y);
       for(int i = 0; i < buttons->size(); i++) {
+    //    std::cout << "here" << '\n';
         if(buttons->at(i)->getBody()->isInside(sp)) {
+      //    std::cout << "hereafter" << '\n';
           buttons->at(i)->click();
         }
-      }
-
-      delete sp;
+    }
 
       leftClickDown = 0;
     }
@@ -147,13 +138,14 @@ public:
 
   virtual void draw() {
     sf::View view;
-    view.reset(sf::FloatRect(0, 0, 1, 1));
-    world->getViewer()->getWindow()->setView(view);
+    //std::cout << world->getViewer()->getPos()->getX() << "  " << world->getViewer()->getPos()->getY() << '\n';
+    //view.reset(sf::FloatRect(world->getViewer()->getPos()->getX(), world->getViewer()->getPos()->getY(), 100, 100));
+    //world->getViewer()->getWindow()->setView(view);
 
     for(int i = 0; i < buttons->size(); i++) {
       buttons->at(i)->draw();
     }
 
-    world->getViewer()->setView();
+    //world->getViewer()->setView();
   }
 };

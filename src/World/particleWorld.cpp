@@ -1,4 +1,4 @@
-#include"../Entity/UserInterface/userInterface.cpp"
+#include"settings.cpp"
 
 class ParticleWorld : public World2D {
 private:
@@ -11,15 +11,14 @@ private:
 
   int target = -1;
 
-  int particleAmt = 350;
-  int typeAmt = 6;
+  Settings * menu;
 
   void loadAssets() {
-    assetManager->loadFile("assests/Fonts/Arial.ttf");
+    assetManager->loadFile("assests/Fonts/BarcadeBrawl.ttf");
   }
 
   void initBounds() {
-    bounds = new RectangleEntity(100, 100);
+    bounds = new RectangleEntity(100, 100, this);
     updateBounds();
     bounds->setWidth(getViewer()->getWidth());
     bounds->setHeight(getViewer()->getHeight());
@@ -27,19 +26,26 @@ private:
 
 public:
   ParticleWorld() : World2D() {
-    ui = new UserInterface(this);
-    ui->getButtonManager()->addButton();
-
     particles = new vector<BaseParticle*>();
     types = new vector<ParticleType*>();
 
     initBounds();
 
-    setViewer(new Viewer2D());
+    //setViewer(new Viewer2D());
 
     initWorld();
 
     loadAssets();
+
+    ui = new UserInterface(this);
+    ui->getButtonManager()->addButton(new Button(new RectangleEntity(32, 4, 0, 16, this), "Reset", this));
+    ui->getButtonManager()->addButton(new Button(new RectangleEntity(32, 4, 0, 11, this), "Settings", this));
+    ui->getButtonManager()->addButton(new Button(new RectangleEntity(32, 8, 0, 0, this), "Emergant Particle Life", this));
+    ui->getButtonManager()->addButton(new Button(new RectangleEntity(32, 4, 0, 21, this), "Quit", this));
+
+    menu = new Settings(getViewer()->getWindow(), assetManager);
+
+    getViewer()->getPos()->sub(10, 10);
   }
 
   //getters
@@ -71,8 +77,8 @@ public:
   //modders
 
   void initWorld() {
-    createRandomTypes(typeAmt);
-    createRandomParts(particleAmt);
+    createRandomTypes(particleTypeAmt);
+    createRandomParts(particleNum);
   }
 
   void addParticle(BaseParticle * part) {
@@ -169,11 +175,27 @@ public:
 
   void uiReaction() {
     Button * resetButton = ui->getButtonManager()->getButton(0);
+    Button * settingsButton = ui->getButtonManager()->getButton(1);
+    Button * quitButton = ui->getButtonManager()->getButton(3);
 
     if(resetButton->isClicked()) {
       initWorld();
       resetButton->reset();
       //std::cout << "reset" << rand() << '\n';
+    }
+
+    if(settingsButton->isClicked()) {
+      menu->open();
+      initWorld();
+      //World::update();
+      //World::update();
+      settingsButton->reset();
+      //std::cout << "reset" << rand() << '\n';
+    }
+
+    if (quitButton->isClicked()) {
+      cont = 0;
+      quitButton->reset();
     }
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))  {

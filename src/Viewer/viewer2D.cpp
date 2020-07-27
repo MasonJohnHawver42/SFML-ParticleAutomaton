@@ -10,14 +10,14 @@ protected:
 public:
   Viewer2D(sf::RenderWindow * win) : Viewer(win) {
     pos = new Vector<double>(0, 0);
-    width = 100;
-    height = 100;
+    width = 300;
+    height = 300;
   }
 
   Viewer2D() : Viewer() {
-    pos = new Vector<double>(10, 10);
-    width = 300;
-    height = 300;
+    pos = new Vector<double>(0, 0);
+    width = 306;
+    height = 306;
   }
   //getters
 

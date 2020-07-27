@@ -15,9 +15,9 @@ public:
              applyAtraction(part, basicWorld->getBounds());
       }
 
-      if(!basicWorld->getBounds()->isInside(pos)) {
+  //    if(!basicWorld->getBounds()->isInside(pos)) {
         //std::cout << rand() << '\n';
-      }
+    //  }
     }
 
     PhysicsBasedEntity::update();

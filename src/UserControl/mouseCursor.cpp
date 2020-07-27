@@ -8,11 +8,17 @@ protected:
 
   Viewer2D * viewer;
 
+  bool leftClickDown;
+  bool leftClicked;
+
 public:
   MouseCursor(Viewer2D * v) {
     pos = new Vector<double>(0, 0);
     lastPos = new Vector<double>(0, 0);
     size = 2;
+
+    leftClickDown = 0;
+    leftClicked = 0;
 
     viewer = v;
   }
@@ -20,6 +26,8 @@ public:
   //getters
 
   Viewer2D * getViewer() { return viewer; }
+
+  bool isLeftClickDown() { return leftClickDown; }
 
   Vector<double> * getScreenPos() {
     sf::Vector2i p = sf::Mouse::getPosition(*viewer->getWindow());
@@ -46,6 +54,8 @@ public:
 
 
   Vector<double> * getPos() { return pos; }
+
+  double getSize() { return size; }
 
   //setters
 
@@ -93,7 +103,13 @@ public:
 
   }
 
+  void updateInput() {
+    leftClickDown = sf::Mouse::isButtonPressed(sf::Mouse::Left) * (1 - leftClicked);
+    leftClicked = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+  }
+
   virtual void update() {
+    updateInput();
     updatePos();
     limitPos();
   }

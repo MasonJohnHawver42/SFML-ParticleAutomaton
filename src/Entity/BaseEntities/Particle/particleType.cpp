@@ -30,6 +30,9 @@ double minReachUpper = 0;
 double maxReachLower = 0;
 double maxReachUpper = 0;
 
+double particleNum = 300;
+double particleTypeAmt = 7;
+
 
 class ParticleType {
 private:

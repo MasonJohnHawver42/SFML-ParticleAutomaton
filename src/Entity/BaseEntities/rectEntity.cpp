@@ -9,12 +9,17 @@ protected:
   sf::Color * color = new sf::Color(255, 255, 255);
 
 public:
-  RectangleEntity() : CoordinateBasedEntity() {
+  RectangleEntity(World2D * wrld) : CoordinateBasedEntity(wrld) {
     width = 7.5;
     height = 10.0;
   }
 
-  RectangleEntity(double w, double h) : CoordinateBasedEntity() {
+  RectangleEntity(double w, double h, World2D * wrld) : CoordinateBasedEntity(wrld) {
+    width = w;
+    height = h;
+  }
+
+  RectangleEntity(double w, double h, double x, double y, World2D * wrld) : CoordinateBasedEntity(x, y, wrld) {
     width = w;
     height = h;
   }
@@ -48,9 +53,8 @@ public:
   }
 
   RectangleEntity * getCopy() {
-    RectangleEntity * rect = new RectangleEntity(width, height);
+    RectangleEntity * rect = new RectangleEntity(width, height, getWorld());
     rect->setPos(pos->getCopy());
-    rect->setWorld(getWorld());
     return rect;
   }
 

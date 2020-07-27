@@ -7,6 +7,7 @@ protected:
 public:
   Entity2D() : Entity() {
     world = nullptr;
+    std::cout << "World NOT Defined! why?" << '\n';
   }
 
   Entity2D(World2D * wrld) : Entity() {

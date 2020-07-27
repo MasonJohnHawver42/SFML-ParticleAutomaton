@@ -36,8 +36,6 @@ public:
 
   bool correctFormat(string fileName) {
     string format = findFileFormat(fileName);
-    std::cout << (format == getFileFormat()) << '\n';
-    std::cout << getFileFormat() << " " << format << '\n';
     return (format == getFileFormat());
   }
 

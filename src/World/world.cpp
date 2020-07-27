@@ -6,6 +6,8 @@ protected:
   int id;
   int static next_id;
 
+  bool cont = 1;
+
   AssetManager * assetManager;
 
   sf::Clock * masterClock;
@@ -37,6 +39,7 @@ public:
   //virtuals
 
   virtual void start() {}
+  virtual bool continueGame() { return cont; }
   virtual void update() { updateTimeDelta = masterClock->restart().asSeconds() * 10; }
   virtual void updateFrame() {}
 

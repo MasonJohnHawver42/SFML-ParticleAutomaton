@@ -72,8 +72,8 @@ public:
 
   virtual void update() {
     applyAcc();
-    applyFriction();
     applyVel();
+    applyFriction();
   }
 
 };

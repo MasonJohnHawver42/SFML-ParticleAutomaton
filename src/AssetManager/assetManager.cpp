@@ -13,7 +13,6 @@ public:
 
   void loadFile(string fileName) {
     fontLoader->loadAsset(fileName);
-    std::cout << "Done Loading File: " << fileName << '\n';
   }
 
   sf::Font * getFont(string fileName) {

@@ -5,11 +5,11 @@ protected:
   Vector<double> * pos;
 
 public:
-  CoordinateBasedEntity(World2D * wrld) : Entity2D(wrld) {
-    pos = new Vector<double>(.1, .1);
+  CoordinateBasedEntity(double x, double y, World2D * wrld) : Entity2D(wrld) {
+    pos = new Vector<double>(x, y);
   }
-  CoordinateBasedEntity() : Entity2D() {
-    pos = new Vector<double>(.01, .01);
+  CoordinateBasedEntity(World2D * wrld) : Entity2D(wrld) {
+    pos = new Vector<double>(0, 0);
   }
 
   ~ CoordinateBasedEntity() {

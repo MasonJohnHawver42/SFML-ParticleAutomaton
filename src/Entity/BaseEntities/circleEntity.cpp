@@ -1,4 +1,4 @@
-#include"rectEntity.cpp"
+#include"textEntity.cpp"
 
 class CircleEntity : public CoordinateBasedEntity {
 protected:
@@ -8,10 +8,10 @@ public:
   CircleEntity(World2D * world, double r) : CoordinateBasedEntity(world) {
     radius = r;
   }
-  CircleEntity(World2D * world) : CoordinateBasedEntity(world) {
-    radius = 1;
+  CircleEntity(double r, World2D * world) : CoordinateBasedEntity(world) {
+    radius = r;
   }
-  CircleEntity() : CoordinateBasedEntity() {
+  CircleEntity(World2D * world) : CoordinateBasedEntity(world) {
     radius = 1;
   }
 
